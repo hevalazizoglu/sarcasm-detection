@@ -11,3 +11,5 @@ __pycache__/
 *.sublime-project
 
 .DS_Store
+
+*/source/settings*

@@ -8,4 +8,4 @@ def index():
 
 
 bottle.debug(True)
-bottle.run(host='localhost', port=8082)         # Start the webserver running and wait for requests
+bottle.run(host='localhost', port=8082)

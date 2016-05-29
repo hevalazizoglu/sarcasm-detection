@@ -40,9 +40,8 @@ def get_sarcasm_tweets_by_stream():
 
 def get_tweets_by_cursor(query):
     api = API(auth)
-    cursor = Cursor(api.search,
-                    q=query,
-                    lang="en").items(2500)
+    query = query + " -RT"
+    cursor = Cursor(api.search, q=query, lang="en").items(5000)
     while True:
         try:
             tweet = cursor.next()
@@ -54,6 +53,24 @@ def get_tweets_by_cursor(query):
         except StopIteration:
             break
 
-get_tweets_by_cursor("#sarcasm")
-time.sleep(60 * 15)
-get_tweets_by_cursor("#")
+def get_tweets_for_feature_extraction(query, count):
+    api = API(auth)
+    query = query + " -RT"
+    cursor = Cursor(api.search, q=query, lang="en").items(count)
+    tweets = []
+    while True:
+        try:
+            tweet = cursor.next()
+            tweets.append(tweet._json)
+        except TweepError:
+            time.sleep(60 * 15)
+            continue
+        except StopIteration:
+            break
+    return tweets
+
+if __name__ == "__main__":
+    # to collect initial data
+    get_tweets_by_cursor("#sarcasm")
+    time.sleep(60 * 15)
+    get_tweets_by_cursor("#")

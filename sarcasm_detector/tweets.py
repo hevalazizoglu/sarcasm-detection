@@ -62,8 +62,9 @@ def get_tweets_for_feature_extraction(query, count):
         try:
             tweet = cursor.next()
             tweets.append(tweet._json)
-        except TweepError:
-            time.sleep(60 * 15)
+        except TweepError as e:
+            print(e)
+            time.sleep(60 * 5)
             continue
         except StopIteration:
             break
